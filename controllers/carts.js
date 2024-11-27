@@ -2,7 +2,7 @@ const Cart = require('../models/cart');
 const User = require('../models/user');
 const Product = require('../models/product');
 
-const getTotalPricePerCart = async (product, size, quantity) => {
+const getTotalPricePerCart = (product, size, quantity) => {
     const price = product.priceL;
     if(size === 'M') {
         price = product.priceM;
@@ -44,12 +44,13 @@ exports.addToCart = async (req, res) => {
             return res.status(200).json({ status: true, message: 'Updated quantity in cart successfully!', data: existingCartItem });
         }
 
+        const total = getTotalPricePerCart(product, size, quantity);
         const cart = await Cart.create({
             user: userId,
             product: productId,
             size: size,
             quantity,
-            total: getTotalPricePerCart(product, size, quantity)
+            total: total
         })
         return res.status(200).json({status: true, message: 'Added to cart successfully!', data: cart})
     } catch (error) {
