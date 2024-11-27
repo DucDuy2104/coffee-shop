@@ -40,7 +40,8 @@ exports.createOrder = async (req, res) => {
 
         if(voucher) {
             totalPrice = totalPrice - voucher.discount;
-        }
+            totalPrice = totalPrice < 0 ? 0 : totalPrice;
+         }
 
         order.user = userId;
         order.address = addressId;
