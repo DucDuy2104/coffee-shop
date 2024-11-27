@@ -11,6 +11,7 @@ exports.ordersStatistic = async (req, res) => {
             const countOrders = orders.length;
 
             let details = await OrderDetail.find().populate('order');
+            details = details.map((detail) => detail._doc)
             details = details.filter((detail) => detail.order.status === 'completed');
 
             const totalIncome = orders.reduce((total, order) => total + order.total, 0)
