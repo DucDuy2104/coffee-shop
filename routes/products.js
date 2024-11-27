@@ -9,7 +9,7 @@ const { createProduct,
 
 // Tạo sản phẩm
 // route: http://localhost:8000/products/create
-// body: { name, description, priceL, priceM, priceH }
+// body: { name, description, image, categoryId, priceL, priceM, priceH }
 router.post('/create', createProduct)
 
 

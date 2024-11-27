@@ -75,8 +75,8 @@ exports.deleteCategory = async (req, res) => {
         await Product.updateMany({ category: categoryId, isDeleted: false }, { isDeleted: true });
         const deletedCart = await Cart.deleteMany({ product: {$in : productIds} });
         category.isDeleted = true;
-        await category.save();
-        return res.status(200).json({ status: true, message: 'Category and related products were deleted successfully' });
+        const deletedCategory =  await category.save();
+        return res.status(200).json({ status: true, message: 'Category and related products were deleted successfully', data: deletedCategory });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ status: false, message: 'Internal server error' });

@@ -2,7 +2,7 @@ const Product = require('../models/product')
 const Category = require('../models/category')
 const Cart = require('../models/cart')
 
-exports.createProduct = async () => {
+exports.createProduct = async (req, res) => {
     try {
         const { name, description, image, priceL, priceM, priceS, categoryId } = req.body
 
