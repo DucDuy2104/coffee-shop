@@ -13,11 +13,8 @@ exports.ordersStatistic = async (req, res) => {
             let details = await OrderDetail.find().populate('order');
             details = details.filter((detail) => detail.order.status === 'completed');
 
-            const { totalIncome, totalProducts } = details.reduce((acc, detail) => {
-                acc.totalIncome += detail.total;
-                acc.totalProducts += detail.quantity;
-                return acc;
-            }, { totalIncome: 0, totalProducts: 0 });
+            const totalIncome = orders.reduce((total, order) => total + order.total, 0)
+            const totalProducts = details.reduce((total, detail) => total + detail.quantity, 0);
 
             return res.status(200).json({
                 status: true,
@@ -50,11 +47,8 @@ exports.ordersStatistic = async (req, res) => {
 
             details = details.filter((detail) => detail.order.status === 'completed');
 
-            const { totalIncome, totalProducts } = details.reduce((acc, detail) => {
-                acc.totalIncome += detail.total;
-                acc.totalProducts += detail.quantity;
-                return acc;
-            }, { totalIncome: 0, totalProducts: 0 });
+            const totalIncome = orders.reduce((total, order) => total + order.total, 0)
+            const totalProducts = details.reduce((total, detail) => total + detail.quantity, 0);
 
             ordersStatistic.push({
                 month: i,
