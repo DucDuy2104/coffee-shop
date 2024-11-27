@@ -26,9 +26,9 @@ exports.createProduct = async (req, res) => {
     }
 }
 
-exports.updateProduct = async () => {
+exports.updateProduct = async (req, res) => {
     try {
-        const { productId, name, description, priceL, priceM, priceS, image } = req.body;
+        const { productId, name, description, categoryId, priceL, priceM, priceS, image } = req.body;
         if(!productId) {
             return res.status(400).json({ status: false, message: 'Product ID is required' });
         }
@@ -53,6 +53,13 @@ exports.updateProduct = async () => {
         }
         if(image) {
             product.image = image;
+        }
+        if(categoryId) {
+            const category = await Category.findById(categoryId);
+            if(!category) {
+                return res.status(400).json({ status: false, message: 'Invalid category ID' });
+            }
+            product.category = categoryId;
         }
         product.updatedAt = new Date();
         const updatedProduct = await product.save();
