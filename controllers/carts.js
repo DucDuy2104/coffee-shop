@@ -88,7 +88,7 @@ exports.deleteCart = async (req, res) => {
         if(!cart) {
             return res.status(404).json({ status: false, message: 'Cart not found' });
         }
-        await cart.remove();
+        await Cart.findByIdAndDelete(cart._id)
         return res.status(200).json({ status: true, message: 'Cart deleted successfully!', data: cart });
     } catch (error) {
         console.error(error);
