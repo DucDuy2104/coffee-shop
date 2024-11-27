@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-const sendEmail = (recieveEmail, verificationCode, subTitle) => {
+const sendEmail = async (recieveEmail, name, verificationCode, subTitle) => {
     console.log('Send mail...');
     let transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -11,7 +11,7 @@ const sendEmail = (recieveEmail, verificationCode, subTitle) => {
     });
 
     const mailOptions = {
-        from: 'Duc Duy Shop', 
+        from: 'Coffee Shop ☕️', 
         to: recieveEmail, 
         subject: subTitle,
         html: `
@@ -20,8 +20,8 @@ const sendEmail = (recieveEmail, verificationCode, subTitle) => {
                 <h1 style="margin: 0;">Duc Duy Shop</h1>
             </div>
             <div style="padding: 20px; line-height: 1.6;">
-                <h2 style="color: #333;">Xin chào Cao Vũ Đức Duy,</h2>
-                <p style="font-size: 16px;">Bạn đã đăng ký tài khoản thành công tại <strong>Duc Duy Shop</strong>. Vui lòng nhấn vào nút bên dưới để xác nhận tài khoản của bạn:</p>
+                <h2 style="color: #333;">Xin chào ${name}</h2>
+                <p style="font-size: 16px;">Bạn đã đăng ký tài khoản thành công tại <strong>'Coffee Shop ☕️'</strong>. Vui lòng nhấn vào nút bên dưới để xác nhận tài khoản của bạn:</p>
                 <a href="http://localhost:8000/auth/verify?email=${recieveEmail}&code=${verificationCode}" 
                    style="display: inline-block; margin-top: 20px; background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">
                    Xác nhận tài khoản
@@ -35,7 +35,7 @@ const sendEmail = (recieveEmail, verificationCode, subTitle) => {
         `
     };
 
-    transporter.sendMail(mailOptions, function (err, info) {
+    await transporter.sendMail(mailOptions, function (err, info) {
         if (err)
             console.log(err);
         else

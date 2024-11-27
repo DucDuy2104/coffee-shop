@@ -33,7 +33,7 @@ exports.register = async (req, res) => {
             name, email, password: hashedPassword, token, tokenExpiration: tokenExpiration
         })
 
-        sendEmail(email, token, `Xác minh tài khoản ${name}`)
+        sendEmail(email, name, token, `Xác minh tài khoản ${name}`)
 
         return res.status(200).json({ status: true, message: 'Registered successfully, please open yout mail box to verify your account' });
 
