@@ -27,6 +27,7 @@ var addressesRouter = require('./routes/addresses');
 var bannersRouter = require('./routes/banners');
 var ordersRouter = require('./routes/orders');
 var statisticRouter = require('./routes/statistic');
+const { default: mongoose } = require('mongoose');
 
 var app = express();
 
@@ -69,15 +70,15 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+mongoose.connect(process.env.MONGO_URL)
+  .then(() => {
+    console.log('Connected to MongoDB');
+    app.listen(process.env.PORT || 3000, () => {
+      console.log(`Server is running on http://localhost:${process.env.PORT || 3000}`);
+    });
+  })
+  .catch(err => {
+    console.error('Error connecting to MongoDB:', err.message);
+  });
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
 
-module.exports = app;
