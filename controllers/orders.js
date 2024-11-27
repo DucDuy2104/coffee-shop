@@ -49,6 +49,8 @@ exports.createOrder = async (req, res) => {
         order.total = totalPrice;
 
         const savedOrder = await order.save();
+
+        await Cart.deleteMany({ user: userId });
         return res.status(200).json({ status: true, message: 'Order created successfully', data: savedOrder });
          
     } catch (error) {
