@@ -215,7 +215,7 @@ exports.cancelOrder = async (req, res) => {
 
 exports.getOrderByStatus = async (req, res) => {
     try {
-        const { status, userId } = req.body;
+        const { status, userId } = req.query;
         if(!status || (status!= 'ordered' && status!= 'preparing' && status!='shipping' && status!= 'completed' && status!= 'cancelled')) {
             return res.status(400).json({ status: false, message: 'Invalid order status' });
         }

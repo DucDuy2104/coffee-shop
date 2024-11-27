@@ -19,7 +19,7 @@ router.get('/user', getOrdersByUser)
 
 // Lấy chi tiết đơn hàng
 // route: http://localhost:8000/orders/detail/{orderId}
-router.get('/detail/:orderId', getOrderDetail)
+router.get('/detail/:orderId', getstOrderDetail)
 
 // Xác nhận đơn hàng
 // route: http://localhost:8000/orders/confirm
