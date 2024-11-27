@@ -28,12 +28,14 @@ router.delete('/delete', deleteProduct)
 // route: http://localhost:8000/products
 router.get('/', getAllProducts)
 
+// Tìm kiếm sản phẩm
+// route: http://localhost:8000/products/search?query={query}
+router.get('/search', search)
+
 // Lấy sản phẩm theo danh mục
 //route: http://localhost:8000/products/{categoryId}
 router.get('/:categoryId', getProductsByCategory)
 
-// Tìm kiếm sản phẩm
-// route: http://localhost:8000/products/search?query={query}
-router.get('/search', search)
+
 
 module.exports = router;
