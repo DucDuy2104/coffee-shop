@@ -38,7 +38,7 @@ exports.deleteVoucher = async (req, res) => {
         if(!voucher) {
             return res.status(404).json({ status: false, message: 'Voucher not found'})
         }
-        voucher.isDeleted = false;
+        voucher.isDeleted = true;
         const deletedVoucher = await voucher.save();
         return res.status(200).json({ status: true, message: 'Voucher deleted successfully', data: deletedVoucher})
     } catch (error) {
