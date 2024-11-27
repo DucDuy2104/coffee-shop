@@ -36,7 +36,7 @@ exports.createOrder = async (req, res) => {
         })
         await Promise.all(orderDetailsPromise)
 
-        let totalPrice  = carts.reduce((total, cart) => total + (cart.product.price * cart.quantity), 0);
+        let totalPrice  = carts.reduce((total, cart) => total + cart.total, 0);
 
         if(voucher) {
             totalPrice = totalPrice - voucher.discount;
