@@ -3,7 +3,7 @@ const User = require('../models/user');
 const Product = require('../models/product');
 
 const getTotalPricePerCart = (product, size, quantity) => {
-    const price = product.priceL;
+    let price = product.priceL;
     if(size === 'M') {
         price = product.priceM;
     }
