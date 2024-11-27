@@ -29,8 +29,10 @@ exports.createOrder = async (req, res) => {
         }
         const order = new Order();
         const orderDetailsPromise = carts.map(async (cart) => {
+            cart = cart._doc;
+            delete cart._id;
             return await OrderDetail.create({
-                ...cart._doc,
+                ...cart,
                 order: order._id,
             })
         })
