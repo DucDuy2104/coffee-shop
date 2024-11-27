@@ -113,7 +113,7 @@ exports.getOrderDetail = async (req, res) => {
         }
         const orderDetails = await OrderDetail.find({order: orderId}).populate('product');
         const data = {
-            ...order,
+            ...order._doc,
             details: orderDetails
         }
         return res.status(200).json({ status: true, message: 'Order details retrieved successfully', data: data });
