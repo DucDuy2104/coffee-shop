@@ -19,6 +19,6 @@ router.put('/update', updateAddress)
 
 // Lấy danh sách địa chỉ của người dùng
 // route: http://localhost:8000/addresses/{userId}
-router.get('/:userId', getUserAddresses)
+router.get('/user/:userId', getUserAddresses)
 
 module.exports = router;
