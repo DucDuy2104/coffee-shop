@@ -83,24 +83,31 @@ exports.ordersStatistic = async (req, res) => {
 
 exports.accountsStatistic = async (req, res) => {
     try {
-        const { year } = req.query
+        const { year } = req.query;
+        
+        const parsedYear = parseInt(year);
+        if (year && (isNaN(parsedYear) || parsedYear < 2000 || parsedYear > new Date().getFullYear())) {
+            return res.status(400).json({ 
+                status: false, 
+                message: 'Năm không hợp lệ' 
+            });
+        }
+
         if (!year) {
             const userCount = await User.countDocuments();
             return res.status(200).json({
-                status: true, message: 'Accounts statistic', data: {
+                status: true, 
+                message: 'Thống kê tài khoản', 
+                data: {
                     totalUser: userCount
                 }
-            })
+            });
         }
 
         const accountsStatistic = [];
         for (let i = 1; i <= 12; i++) {
-            let start = new Date(`${year}-${i.toString().padStart(2, '0')}-01T00:00:00.000Z`);
-            let end = new Date(`${year}-${(i + 1).toString().padStart(2, '0')}-01T00:00:00.000Z`);
-            
-            if (i === 12) {
-                end = new Date(`${year + 1}-01-01T00:00:00.000Z`);
-            }
+            let start = new Date(Date.UTC(parsedYear, i - 1, 1));
+            let end = new Date(Date.UTC(parsedYear, i, 1));
 
             const userCount = await User.countDocuments({
                 createdAt: { $gte: start, $lt: end }
@@ -111,10 +118,19 @@ exports.accountsStatistic = async (req, res) => {
                 totalUser: userCount
             });
         }
-        return res.status(200).json({ status: true, message: 'Monthly accounts statistic', data: accountsStatistic })
+
+        return res.status(200).json({ 
+            status: true, 
+            message: 'Thống kê tài khoản theo tháng', 
+            data: accountsStatistic 
+        });
+
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ status: false, message: 'Server error' });
+        return res.status(500).json({ 
+            status: false, 
+            message: 'Lỗi hệ thống' 
+        });
     }
-}
+};
 
