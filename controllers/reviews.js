@@ -73,7 +73,7 @@ exports.deleteReview = async (req, res) => {
         if(!review) {
             return res.status(404).json({ status: false, message: 'Review not found' });
         }
-        return res.status(200).json({ status: true, message: 'Review deleted successfully' });
+        return res.status(200).json({ status: true, message: 'Review deleted successfully', data: review });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ status: false, message: 'Internal server error' });
