@@ -95,10 +95,11 @@ exports.accountsStatistic = async (req, res) => {
 
         const accountsStatistic = [];
         for (let i = 1; i <= 12; i++) {
-            let start = new Date(`${year}-${i}-01T00:00:00.000Z`);
-            let end = new Date(`${year}-${i + 1}-01T00:00:00.000Z`);
+            let start = new Date(`${year}-${i.toString().padStart(2, '0')}-01T00:00:00.000Z`);
+            let end = new Date(`${year}-${(i + 1).toString().padStart(2, '0')}-01T00:00:00.000Z`);
+            
             if (i === 12) {
-                end = new Date(`${parseInt(year) + 1}-01-01T00:00:00.000Z`);
+                end = new Date(`${year + 1}-01-01T00:00:00.000Z`);
             }
 
             const userCount = await User.countDocuments({
