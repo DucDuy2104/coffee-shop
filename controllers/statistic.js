@@ -4,14 +4,13 @@ const OrderDetail = require('../models/order_detail')
 
 exports.ordersStatistic = async (req, res) => {
     try {
-        const { year } = req.query;
-
+        var { year } = req.query;
+        
         if (!year) {
             const orders = await Order.find({ status: 'completed' });
             const countOrders = orders.length;
 
             let details = await OrderDetail.find().populate('order');
-            console.log('details: ', details)
             details = details.filter((detail) => detail.order.status === 'completed');
 
             const totalIncome = orders.reduce((total, order) => total + order.total, 0)
@@ -19,7 +18,7 @@ exports.ordersStatistic = async (req, res) => {
 
             return res.status(200).json({
                 status: true,
-                message: 'Orders statictis',
+                message: 'Orders statistics',  
                 data: {
                     totalOrder: countOrders,
                     totalIncome: totalIncome,
@@ -30,11 +29,21 @@ exports.ordersStatistic = async (req, res) => {
 
         const ordersStatistic = [];
 
+        year = parseInt(year);
+
+        if (isNaN(year)) {
+            return res.status(400).json({ 
+                status: false, 
+                message: 'Invalid year provided' 
+            });
+        }
+
         for (let i = 1; i <= 12; i++) {
-            let start = new Date(`${year}-${i}-01T00:00:00.000Z`);
-            let end = new Date(`${year}-${i + 1}-01T00:00:00.000Z`);
+            let start = new Date(`${year}-${i.toString().padStart(2, '0')}-01T00:00:00.000Z`);
+            let end = new Date(`${year}-${(i + 1).toString().padStart(2, '0')}-01T00:00:00.000Z`);
+            
             if (i === 12) {
-                end = new Date(`${parseInt(year) + 1}-01-01T00:00:00.000Z`);
+                end = new Date(`${year + 1}-01-01T00:00:00.000Z`);
             }
 
             const orders = await Order.find({
