@@ -51,11 +51,11 @@ exports.getReviewsByProduct = async (req, res) => {
 
 exports.getReviewsByUser = async (req, res) => {
     try {
-        const {user} = req.params;
-        if(!user) {
+        const {userId} = req.params;
+        if(!userId) {
             return res.status(400).json({ status: false, message: 'User ID is required' });
         }
-        const reviews = await Review.find({ user: user }).populate('product');
+        const reviews = await Review.find({ user: userId }).populate('product');
         return res.status(200).json({ status: true, message: 'Reviews retrieved successfully', data: reviews });
     } catch (error) {
         console.error(error);
