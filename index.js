@@ -16,6 +16,7 @@ require('./models/address')
 require('./models/banner')
 require('./models/order_detail')
 require('./models/order')
+require('./models/review')
 
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
@@ -27,7 +28,10 @@ var addressesRouter = require('./routes/addresses');
 var bannersRouter = require('./routes/banners');
 var ordersRouter = require('./routes/orders');
 var statisticRouter = require('./routes/statistic');
+var reviewsRouter = require('./routes/reviews');
+
 const { default: mongoose } = require('mongoose');
+
 
 var app = express();
 
@@ -52,6 +56,7 @@ app.use('/addresses', addressesRouter);
 app.use('/banners', bannersRouter);
 app.use('/orders', ordersRouter);
 app.use('/statistic', statisticRouter);
+app.use('/reviews', reviewsRouter);
 
 // home page
 app.get('/', (req, res) => {
