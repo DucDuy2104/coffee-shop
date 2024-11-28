@@ -64,15 +64,9 @@ app.get('/', (req, res) => {
 });
 
 
-
 // verify success
 app.get('/success', (req, res) => {
   return res.status(200).render('verified_success');
-});
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
 });
 
 mongoose.connect(process.env.MONGO_URL)

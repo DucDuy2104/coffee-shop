@@ -80,7 +80,7 @@ exports.login = async (req, res) => {
             user.token = token;
             user.tokenExpiration = tokenExpiration;
             await user.save();
-            await sendEmail(email, token, `Xác minh tài khoản ${user.name}`)
+            await sendEmail(email, user.name, token, `Xác minh tài khoản ${user.name}`)
             return res.status(400).json({ status: false, message: 'Please verify your account, please open your mail box to verify your account' });
         }
 

@@ -18,7 +18,7 @@ const sendEmail = async (recieveEmail, name, verificationCode, subTitle) => {
         html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 10px; overflow: hidden;">
             <div style="background-color: #4CAF50; color: white; padding: 20px; text-align: center;">
-                <h1 style="margin: 0;">Duc Duy Shop</h1>
+                <h1 style="margin: 0;">Coffee Shop</h1>
             </div>
             <div style="padding: 20px; line-height: 1.6;">
                 <h2 style="color: #333;">Xin chào ${name}</h2>
