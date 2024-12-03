@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { createProduct, 
-    updateProduct, 
-    deleteProduct, 
-    getAllProducts, 
-    getProductsByCategory, 
-    search } = require('../controllers/products')
+const { createProduct,
+    updateProduct,
+    deleteProduct,
+    getAllProducts,
+    getProductsByCategory,
+    search,
+    getProductDetail } = require('../controllers/products')
 
 // Tạo sản phẩm
 // route: http://localhost:8000/products/create
@@ -35,6 +36,11 @@ router.get('/search', search)
 // Lấy sản phẩm theo danh mục
 //route: http://localhost:8000/products/{categoryId}
 router.get('/:categoryId', getProductsByCategory)
+
+
+// Lấy chi tiết sản phẩm
+// route: http://localhost:8000/products/detail/{productId}
+router.get('/detail/:productId', getProductDetail)
 
 
 

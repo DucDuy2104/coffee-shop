@@ -1,6 +1,7 @@
 const Product = require('../models/product')
 const Category = require('../models/category')
 const Cart = require('../models/cart')
+const Review = require('../models/review');
 
 exports.createProduct = async (req, res) => {
     try {
@@ -147,9 +148,9 @@ exports.search = async (req, res) => {
 }
 
 
-exports.getProductDetails = async ( req, res ) => {
+exports.getProductDetail = async ( req, res ) => {
     try {
-        const { productId } = req.query
+        const { productId } = req.params;
         if(!productId) {
             return res.status(400).json({ status: false, message: 'Product ID is required' });
         }
@@ -160,7 +161,11 @@ exports.getProductDetails = async ( req, res ) => {
         if(!product) {
             return res.status(404).json({ status: false, message: 'Product not found' });
         }
-        return res.status(200).json({ status: true, message: 'Product fetched successfully', data: product });
+        const reviews = await Review.find({ product: productId }).populate('user');
+        return res.status(200).json({ status: true, message: 'Product fetched successfully', data: {
+            ...product._doc,
+            reviews
+        } });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ status: false, message: 'Internal server error' });
