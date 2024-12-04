@@ -2,19 +2,24 @@ const Banner = require('../models/banner');
 
 exports.updateBanner = async (req, res) => {
     try {
-        const banners = await Banner.find({})
-        if (!banners.length) {
-            return res.status(404).json({ status: false, message: 'No banners found' });
+        var banners = await Banner.find({})
+        if (banners.length > 0) {
+            const createdBanner = await Banner.create({
+                "banner": "https://static.vecteezy.com/system/resources/previews/010/566/757/non_2x/international-coffee-day-banner-design-with-wooden-background-illustration-vector.jpg",
+                "footer1": "https://static.vecteezy.com/system/resources/previews/012/025/024/non_2x/coffee-banner-ads-retro-brown-style-with-latte-and-coffee-beans-3d-realistic-simple-vector.jpg",
+                "footer2": "https://i.pinimg.com/736x/2e/d9/be/2ed9be4c75de693b75bacd6ed3594b31.jpg",
+            })
+            banners = [createdBanner]
         }
         const eBanner = banners[0];
         const { banner , footer1, footer2 } = req.body;
-        if(banner) {
+        if(banner && banner != "") {
             eBanner.banner = banner;
         }
-        if(footer1) {
+        if(footer1 && footer1 != "") {
             eBanner.footer1 = footer1;
         }
-        if(footer2) {
+        if(footer2 && footer2 != "") {
             eBanner.footer2 = footer2;
         }
         await eBanner.save();
