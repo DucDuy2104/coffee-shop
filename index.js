@@ -69,6 +69,12 @@ app.get('/success', (req, res) => {
   return res.status(200).render('verified_success');
 });
 
+
+// update password success
+app.get('/up-success', (req, res) => {
+  return res.status(200).render('verified_success');
+});
+
 mongoose.connect(process.env.MONGO_URL)
   .then(() => {
     console.log('Connected to MongoDB');

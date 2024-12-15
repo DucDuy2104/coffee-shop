@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đặt Lại Mật Khẩu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .password-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+            margin-bottom: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="errorMessage" class="error-message"></div>
+        
+        <div class="input-group">
+            <input 
+                type="password" 
+                id="newPasswordInput" 
+                class="password-input" 
+                placeholder="Nhập mật khẩu mới"
+            >
+        </div>
+        
+        <div class="input-group">
+            <input 
+                type="password" 
+                id="confirmPasswordInput" 
+                class="password-input" 
+                placeholder="Nhập lại mật khẩu mới"
+            >
+        </div>
+        
+        <button id="submitBtn" class="submit-btn">Xác Nhận</button>
+    </div>
+
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            // Lấy giá trị input
+            const email = '{{email}}';  // Email từ HBS
+            const newPassword = document.getElementById('newPasswordInput').value;
+            const confirmPassword = document.getElementById('confirmPasswordInput').value;
+            const errorMessageEl = document.getElementById('errorMessage');
+
+            // Reset thông báo lỗi
+            errorMessageEl.textContent = '';
+            errorMessageEl.style.display = 'none';
+
+            // Validate
+            if (newPassword.length < 6) {
+                errorMessageEl.textContent = 'Mật khẩu phải có ít nhất 6 ký tự';
+                errorMessageEl.style.display = 'block';
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                errorMessageEl.textContent = 'Mật khẩu không khớp';
+                errorMessageEl.style.display = 'block';
+                return;
+            }
+
+            // Gọi API reset password
+            const url = `http://localhost:8000/users/update-pass?email=${encodeURIComponent(email)}&newPass=${encodeURIComponent(newPassword)}`;
+            
+            fetch(url, {
+                method: 'GET'
+            })
+            .then(response => response.text())
+            .then(result => {
+                alert('Đặt lại mật khẩu thành công');
+            })
+            .catch(error => {
+                errorMessageEl.textContent = 'Có lỗi xảy ra: ' + error.message;
+                errorMessageEl.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
